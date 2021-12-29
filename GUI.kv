@@ -1,0 +1,158 @@
+<AlarmGUI>:
+    orientation: "vertical"
+    size_hint: 1, 1
+    canvas.before:
+        Color:
+            rgba: (0.10,0.00,0.18,0.5)
+        Rectangle:
+            size: self.size
+            pos: self.pos
+    FloatLayout:
+        orientation:'horizontal'
+        size_hint: 1, 0.25
+        background_color: (0.5, .36, .2, .55)
+        Label:
+            id: screen
+            size_hint: 0.5, 0.3
+            pos_hint :{'x':0.1, 'y':0.5}
+            text:'Next alarm in:'
+            font_size: '60sp'        
+            color: (0.93,0.80,1.00)
+        Label:
+            id: screen
+            size_hint: 0.5, 0.4
+            pos_hint :{'x':0.25, 'y':0.1}
+            text:'00:00:00'
+            font_size: '60sp'
+            color: (0.93,0.80,1.00)
+    FloatLayout:
+        orientation:'horizontal'
+        size_hint: 1, 0.25
+        ColorTextInput:
+            id: hour
+            size_hint: 0.2, 0.6
+            pos_hint :{'x':0.275, 'y':0.2}
+            text:'15'
+            font_size: '80sp'
+            bold:True
+            background_color: (0.33,0.00,0.50)
+            on_text: self.changetored()
+        Button:
+            id: hour_up
+            size_hint: 0.2, 0.2
+            pos_hint :{'x':0.275, 'y':0.8}
+            text:'+'
+            bold: True
+            background_color: (0.33,0.00,0.75)
+            on_release: root.time_up(self)
+        Button:
+            id: hour_down
+            size_hint: 0.2, 0.2
+            pos_hint :{'x':0.275, 'y':0.0}
+            text:'-'
+            bold: True
+            background_color: (0.33,0.00,0.75)
+            on_release: root.time_up(self)
+        ColorTextInput:
+            id: minute
+            size_hint: 0.2, 0.6
+            pos_hint :{'x':0.525, 'y':0.2}
+            text:'30'
+            font_size: '80sp'
+            bold:True
+            background_color: (0.33,0.00,0.50)
+            on_text: self.changetored()
+        Button:
+            id: minute_up
+            size_hint: 0.2, 0.2
+            pos_hint :{'x':0.525, 'y':0.8}
+            text:'+'
+            bold: True
+            background_color: (0.33,0.00,0.75)
+            on_release: root.time_up(self)
+        Button:
+            id: minute_down
+            size_hint: 0.2, 0.2
+            pos_hint :{'x':0.525, 'y':0.0}
+            text:'-'
+            bold: True
+            background_color: (0.33,0.00,0.75)
+            on_release: root.time_up(self)
+    FloatLayout:
+        orientation:'horizontal'
+        size_hint: 1, 0.15
+        ColorTextInput:
+            id: alarm_name_input
+            size_hint: 0.5, 0.7
+            pos_hint :{'x':0.25, 'y':0.15}
+            text:'My_alarm'
+            font_size: '50sp'
+            bold:True
+            background_color: (0.33,0.00,0.50)
+            on_text: self.changetored()
+    GridLayout:
+        cols: 7
+        rows: 1
+        size_hint: 0.95, 0.1
+        pos_hint :{'x':0.025, 'y':0.5}
+        Button:
+            id: Monday
+            col: 0
+            text:'MON'
+            bold: True
+            background_color: (0.33,0.00,0.75)
+            on_release: root.set_days(self)
+        Button:
+            id: Tuesday
+            col: 1
+            text:'TUE'
+            bold:True
+            background_color: (0.33,0.00,0.75)
+            on_release: root.set_days(self)
+        Button:
+            id: Wednesday
+            col: 2
+            text:'WED'
+            bold:True
+            background_color: (0.33,0.00,0.75)
+            on_release: root.set_days(self)
+        Button:
+            id: Thursday
+            col: 3
+            text:'THU'
+            bold:True
+            background_color: (0.33,0.00,0.75)
+            on_release: root.set_days(self)
+        Button:
+            id: Friday
+            col: 4
+            text:'FRI'
+            bold:True
+            background_color: (0.33,0.00,0.75)
+            on_release: root.set_days(self)
+        Button:
+            id: Saturday
+            col: 5
+            text:'SAT'
+            bold:True
+            background_color: (0.33,0.00,0.75)
+            on_release: root.set_days(self)
+        Button:
+            id: Sunday
+            col: 6
+            text:'SUN'
+            bold:True
+            background_color: (0.33,0.00,0.75)
+            on_release: root.set_days(self)
+    FloatLayout:
+        padding: 25
+        size_hint: 1,0.2
+        Button:
+            id: play_button
+            size_hint:0.4, 0.5
+            pos_hint :{'center_x':0.5, 'center_y':0.5}
+            text:'Set alarm'
+            font_size: 35
+            bold:True
+            background_color: (0.33,0.00,0.75)
+            on_release: root.set_alarm_button()
