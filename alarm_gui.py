@@ -21,7 +21,7 @@ class ColorTextInput(TextInput):
 class AlarmGUI(BoxLayout, Alarm):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-
+        
         self.show_alarms()
         self.ids["hour"].text = "00"
         self.ids["minute"].text = "00"
@@ -87,27 +87,36 @@ class AlarmGUI(BoxLayout, Alarm):
         while True:
             time.sleep(1)
             alarms_copy = Alarm.alarms_converted.copy()
+            alarms_copy2 = Alarm.alarms.copy()
 
             if self.closest_alarm_name != "":
-                diff = alarms_copy[self.closest_alarm_name] - datetime.now()
-                print(alarms_copy)
+                splitted = self.closest_alarm_name.split(".")
+                date_obj = datetime.strptime(
+                    splitted[1], '%Y-%m-%d %H:%M:%S')
+
+                diff = date_obj - datetime.now()
                 if diff < timedelta(days=0):
                     print(self.closest_alarm_name)
-                    self.closest_alarm_name = ""
                     self.convert_alarms()
                     self.play_sound()
                     self.show_alert_dialog()
+                    
+                    self.closest_alarm_name = ""
+
                     continue
 
-
+        
             self.closest_alarm_name = self.show_closest_alarm()
-            diff_converted = str(alarms_copy[self.closest_alarm_name] - datetime.now())
-            diff_converted = diff_converted.replace(","," -")
-            diff_converted = diff_converted.split(".")
 
-            print(str(diff_converted[0]))
+            if self.closest_alarm_name != "":
+                
+                diff_converted = str(alarms_copy[self.closest_alarm_name] - datetime.now())
+                diff_converted = diff_converted.replace(","," -")
+                diff_converted = diff_converted.split(".")
 
-            self.ids["screen"].text = diff_converted[0]
+                print(str(diff_converted[0]))
+
+                self.ids["screen"].text = diff_converted[0]
 
     def validate_time(self,instance, value):
         if len(value) > 0 and len(value) <= 2 and value.isdigit():
@@ -128,6 +137,7 @@ class AlarmGUI(BoxLayout, Alarm):
         value = value.replace(" ","")
         value = value.replace("-","")
         value = value.replace("_","")
+        
         if not value.isalnum():
             instance.text = instance.text[:-1]
 
@@ -201,6 +211,16 @@ class AlarmGUI(BoxLayout, Alarm):
     def play_sound(self):
         self.sound = SoundLoader.load('ringtone_1.mp3')
 
+        alarm_info = self.closest_alarm_name.split(".")
+        alarm_name = alarm_info[0]
+        weekday = alarm_info[2]
+        
+        Alarm.alarms[alarm_name]["days"].remove(weekday)
+        
+        del Alarm.alarms_converted[self.closest_alarm_name]
+
+        self.convert_alarms()
+
         if self.sound:
             self.sound.loop = True
             self.sound.play()
@@ -216,6 +236,7 @@ class GUIApp(App):
   
     def build(self):
         self.icon = "appicon.jpg"
+        self.title = 'Alarm'
         return AlarmGUI()
   
 if __name__ == "__main__":
