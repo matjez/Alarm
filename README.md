@@ -6,4 +6,6 @@ Simple GUI alarm clock.
 
 -Windows 11 (tested)
 
+-Python 3.7.2+
+
 -requirements.txt

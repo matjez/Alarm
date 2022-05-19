@@ -79,5 +79,9 @@ class Alarm():
     @staticmethod
     def show_alarms():
         with open("data/alarms.json","r") as f:
-            json_alarms = json.loads(f.read())
-            return json_alarms
+            readed = f.read()
+
+            if readed == "":
+                return {}
+            else:
+                return json.loads(readed)
